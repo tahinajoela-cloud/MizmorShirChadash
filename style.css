@@ -1,0 +1,147 @@
+/* style.css */
+@font-face {
+    font-family: 'SILEOT';
+    src: url('fonts/SILEOT.ttf') format('truetype');
+}
+
+body {
+    font-family: 'SILEOT', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+#app-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 5px;
+    padding-bottom: 70px; /* Mba hisy toerana ho an'ny footer */
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+    position: sticky;
+    top: 0;
+    background-color: rgb(113, 13, 93);
+    z-index: 100;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.search-bar {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.song-list, .author-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.song-list li, .author-list li {
+    background: #fff;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.song-list li:hover, .author-list li:hover {
+    background-color: #e9e9e9;
+}
+
+.song-title-list {
+    font-size: 1.1em;
+    font-weight: lighter;
+}
+
+.song-details-container {
+    padding-top: 10px;
+}
+
+.song-details {
+    background: #fff;
+    margin: 0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+h1 { color: white; }
+h2 { text-align: center; }
+
+.song-details h2 {
+    margin-top: 0;
+}
+
+.song-details pre {
+    white-space: pre-wrap;
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin: 0;
+    border-radius: 5px;
+    font-size: 18px;
+    font-family: 'SILEOT', Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.footer {
+    text-align: center;
+    padding: 10px;
+    background-color: rgb(113, 13, 93);
+    color: #fff;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Fanampiana vaovao ho an'ny navigation sy scroll */
+.sticky-header {
+    position: sticky;
+    top: 0;
+    background-color: #f4f4f9;
+    padding: 0px;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.song-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(113, 13, 93);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.nav-button {
+    background-color: white;
+    color: rgb(113, 13, 93);
+    border: none;
+    padding: 10px 15px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: #333;
+    color: white;
+}
