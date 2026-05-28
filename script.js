@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
             renderSongs(JSON.parse(cached));
         }
         
-        // Miezaka mitady update na dia efa misy aza ny cache
         fetch(csvUrl)
             .then(r => r.text())
             .then(text => {
@@ -20,7 +19,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         renderSongs(res.data);
                     }
                 });
-            }).catch(() => console.log("Offline mode: mampiasa cache."));
+            })
+            .catch(() => {
+                console.log("Offline mode: mampiasa cache.");
+                // Raha nisy cache dia efa naseho teo ambony, fa raha mbola tsy naseho dia averina eto
+                if (cached) {
+                    renderSongs(JSON.parse(cached));
+                }
+            });
     }
 
     function renderSongs(songs) {
@@ -29,7 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
         list.innerHTML = '';
         songs.forEach(s => {
             let div = document.createElement('div');
-            div.textContent = s.title; // Hamarino tsara ny lohatenin'ny colone
+            // Ataovy azo antoka fa mifanaraka amin'ny lohatenin'ny tsanganana ao amin'ny Google Sheets-nao ny hoe 'title'
+            div.textContent = s.title || "Tsy misy lohateny"; 
             list.appendChild(div);
         });
     }
