@@ -30,12 +30,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         })
-        .catch(err => {
-            console.log("Offline mode: mampiasa cache.");
-            if (!cachedData) {
-                const listContainer = document.getElementById('songs-list');
-                if(listContainer) {
-                    listContainer.innerHTML = '<p style="text-align:center; padding:20px;">Mila internet ianao amin'ny voalohany mampiasa ny app.</p>';
+       .catch(err => {
+            clearTimeout(internetTimeout);
+            console.log("Offline mode na nisy olana ny Fetch:", err);
+            if (cachedData) {
+                hideLoading();
+                renderHomePage(allSongs);
+            } else {
+                if (loadingStatus) {
+                    loadingStatus.textContent = "Tsy afaka mampiditra hira. Hamarino ny internet-nao.";
+                    loadingStatus.style.color = "red";
                 }
             }
         });
