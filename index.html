@@ -2,19 +2,25 @@
 <html lang="mg">
 <head>
     <meta charset="UTF-8">
-    <link rel="manifest" href="/manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
     <title>Mizmor Shir Chadash</title>
 </head>
 <body>
     <h3>Tongasoa!</h3>
-    <!-- Aza mampiasa window.location.href eto -->
     <script>
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./service-worker.js');
+            navigator.serviceWorker.register('./service-worker.js')
+                .then(() => console.log("Service Worker voasoratra soa aman-tsara!"))
+                .catch(err => console.log("Olana Service Worker:", err));
         }
-        // Alefaso mivantana amin'ny home.html raha efa misy data
+        
         if(localStorage.getItem('songs_data')) {
             window.location.href = 'home.html';
+        } else {
+            setTimeout(() => {
+                window.location.href = 'home.html';
+            }, 2000);
         }
     </script>
 </body>
