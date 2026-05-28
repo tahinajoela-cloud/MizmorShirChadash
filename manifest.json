@@ -3,5 +3,13 @@
   "short_name": "Mizmor Shir",
   "start_url": "index.html",
   "display": "standalone",
-  "icons": [{ "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }]
+  "background_color": "#710d5d",
+  "theme_color": "#710d5d",
+  "icons": [
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
