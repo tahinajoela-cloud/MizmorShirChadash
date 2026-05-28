@@ -11,11 +11,13 @@
     <div id="content">Ity ny tononkira...</div>
 
     <script>
-        // FAMETRAHANA SERVICE WORKER (Tsy maintsy misy mba hiasa offline)
-        if ('serviceWorker' in navigator) {
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
             navigator.serviceWorker.register('./service-worker.js')
-                .then(() => console.log('Service Worker miasa!'));
-        }
-    </script>
+                .then(() => console.log('Service Worker efa voasoratra tsara!'))
+                .catch((err) => console.log('Tsy nety ny fisoratana: ', err));
+        });
+    }
+</script>
 </body>
 </html>
