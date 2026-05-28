@@ -1,48 +1,113 @@
 document.addEventListener('DOMContentLoaded', () => {
     const appContainer = document.getElementById('app-container');
     const toggleViewLink = document.getElementById('toggle-view');
+    
+    const loadingContainer = document.getElementById('loading-container');
+    const loadingStatus = document.getElementById('loading-status');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    const loadingDetails = document.getElementById('loading-details');
+
     let allSongs = [];
     let authors = [];
     let currentSongs = []; 
 
     const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSx0LfEILechHBVKVEjuWA57E18yXF9xTXfcLPXCY75dGSZvNf2lLaiy6Rrgu9XW6FVkQ57cmE9ewCV/pub?output=csv';
 
-    // 1. Jerevana aloha raha efa misy data taloha tao amin'ny localStorage
+    // 1. Jerevana ny cache (Offline First)
     const cachedData = localStorage.getItem('songs_data');
     if (cachedData) {
         allSongs = JSON.parse(cachedData);
         authors = [...new Set(allSongs.map(song => song.author))];
+        hideLoading();
         renderHomePage(allSongs);
     }
 
-    // 2. Alaina ny data vaovao avy amin'ny Google Sheet
+    // Fampitandremana raha toa ka ela loatra ny fisintomana
+    const internetTimeout = setTimeout(() => {
+        if (!cachedData && loadingStatus) {
+            loadingStatus.textContent = "Misy olana ny fidirana amin'ny internet...";
+            loadingStatus.style.color = "red";
+        }
+    }, 5000);
+
+    // 2. Fisintomana miaraka amin'ny fandrefesana ny lanjany
     fetch(csvUrl)
-        .then(response => response.text())
-        .then(csvText => {
+        .then(response => {
+            if (!response.ok) throw new Error("Network response was not ok");
+            
+            clearTimeout(internetTimeout);
+            const reader = response.body.getReader();
+            let receivedLength = 0;
+            let chunks = [];
+
+            return new Promise((resolve, reject) => {
+                function read() {
+                    reader.read().then(({done, value}) => {
+                        if (done) {
+                            resolve({ chunks, receivedLength });
+                            return;
+                        }
+                        chunks.push(value);
+                        receivedLength += value.length;
+
+                        const kBytes = (receivedLength / 1024).toFixed(1);
+                        if (loadingDetails) {
+                            loadingDetails.textContent = "Efa voasintona: " + kBytes + " KB";
+                        }
+                        if (progressBarFill) {
+                            let simulatedPercent = Math.min(95, (receivedLength / 50000) * 100);
+                            progressBarFill.style.width = simulatedPercent + "%";
+                        }
+
+                        read();
+                    }).catch(reject);
+                }
+                read();
+            });
+        })
+        .then(({ chunks, receivedLength }) => {
+            let chunksAll = new Uint8Array(receivedLength);
+            let position = 0;
+            for(let chunk of chunks) {
+                chunksAll.set(chunk, position);
+                position += chunk.length;
+            }
+            const csvText = new TextDecoder("utf-8").decode(chunksAll);
+
             Papa.parse(csvText, {
                 header: true,
                 skipEmptyLines: true,
                 complete: function(results) {
                     allSongs = results.data; 
-                    localStorage.setItem('songs_data', JSON.stringify(allSongs)); // Tahirizina ho an'ny offline
+                    localStorage.setItem('songs_data', JSON.stringify(allSongs));
                     authors = [...new Set(allSongs.map(song => song.author))];
-                    renderHomePage(allSongs);
+                    
+                    if (progressBarFill) progressBarFill.style.width = "100%";
+                    
+                    setTimeout(() => {
+                        hideLoading();
+                        renderHomePage(allSongs);
+                    }, 300);
                 }
             });
         })
-       .catch(err => {
+        .catch(err => {
             clearTimeout(internetTimeout);
-            console.log("Offline mode na nisy olana ny Fetch:", err);
+            console.log("Offline mode na nisy olana:", err);
             if (cachedData) {
                 hideLoading();
                 renderHomePage(allSongs);
             } else {
                 if (loadingStatus) {
-                    loadingStatus.textContent = "Tsy afaka mampiditra hira. Hamarino ny internet-nao.";
+                    loadingStatus.textContent = "Tsy afaka mampiditra hira. Hamarino ny internet.";
                     loadingStatus.style.color = "red";
                 }
             }
         });
+
+    function hideLoading() {
+        if (loadingContainer) loadingContainer.style.display = 'none';
+    }
 
     function renderHomePage(songsToRender) {
         currentSongs = songsToRender;
