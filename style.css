@@ -1,11 +1,5 @@
-/* style.css */
-@font-face {
-    font-family: 'SILEOT';
-    src: url('fonts/SILEOT.ttf') format('truetype');
-}
-
 body {
-    font-family: 'SILEOT', Arial, sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f9;
@@ -17,7 +11,7 @@ body {
     max-width: 800px;
     margin: 0 auto;
     padding: 5px;
-    padding-bottom: 70px; /* Mba hisy toerana ho an'ny footer */
+    padding-bottom: 70px;
 }
 
 header {
@@ -41,10 +35,13 @@ header {
     box-sizing: border-box;
 }
 
+h1 { color: white; }
+h2 { text-align: center; }
+
 .song-list, .author-list {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
-    margin-top: 20px;
+    margin: 0;
 }
 
 .song-list li, .author-list li {
@@ -52,96 +49,78 @@ header {
     margin-bottom: 10px;
     padding: 15px;
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background 0.2s;
 }
 
 .song-list li:hover, .author-list li:hover {
-    background-color: #e9e9e9;
+    background: #f0f0f0;
 }
 
-.song-title-list {
-    font-size: 1.1em;
-    font-weight: lighter;
+.song-title-list, .author-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(113, 13, 93);
 }
 
 .song-details-container {
-    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.song-navigation {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(113, 13, 93);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.nav-button {
+    background: #fff;
+    color: rgb(113, 13, 93);
+    border: none;
+    padding: 8px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.nav-button:hover {
+    background: #e0e0e0;
 }
 
 .song-details {
     background: #fff;
-    margin: 0;
-    padding: 10px;
+    padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-h1 { color: white; }
-h2 { text-align: center; }
-
-.song-details h2 {
-    margin-top: 0;
 }
 
 .song-details pre {
     white-space: pre-wrap;
     background-color: #f9f9f9;
     padding: 15px;
-    margin: 0;
     border-radius: 5px;
     font-size: 18px;
-    font-family: 'SILEOT', Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: inherit;
 }
 
 .footer {
     text-align: center;
-    padding: 10px;
+    padding: 15px;
     background-color: rgb(113, 13, 93);
     color: #fff;
     position: fixed;
     bottom: 0;
     width: 100%;
+    box-sizing: border-box;
 }
 
 .footer a {
     color: #fff;
     text-decoration: none;
     font-weight: bold;
-}
-
-/* Fanampiana vaovao ho an'ny navigation sy scroll */
-.sticky-header {
-    position: sticky;
-    top: 0;
-    background-color: #f4f4f9;
-    padding: 0px;
-    z-index: 100;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.song-navigation {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: rgb(113, 13, 93);
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.nav-button {
-    background-color: white;
-    color: rgb(113, 13, 93);
-    border: none;
-    padding: 10px 15px;
-    margin: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.nav-button:hover {
-    background-color: #333;
-    color: white;
 }
