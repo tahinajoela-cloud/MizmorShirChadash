@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSx0LfEILechHBVKVEjuWA57E18yXF9xTXfcLPXCY75dGSZvNf2lLaiy6Rrgu9XW6FVkQ57cmE9ewCV/pub?output=csv';
 
-    // 1. Zahana aloha raha efa misy data voatahiry (Offline First)[cite: 5]
+    // 1. Jerevana aloha raha efa misy data taloha tao amin'ny localStorage
     const cachedData = localStorage.getItem('songs_data');
     if (cachedData) {
         allSongs = JSON.parse(cachedData);
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderHomePage(allSongs);
     }
 
-    // 2. Alaina ny angona vaovao avy amin'ny internet
+    // 2. Alaina ny data vaovao avy amin'ny Google Sheet
     fetch(csvUrl)
         .then(response => response.text())
         .then(csvText => {
@@ -24,16 +24,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 skipEmptyLines: true,
                 complete: function(results) {
                     allSongs = results.data; 
-                    localStorage.setItem('songs_data', JSON.stringify(allSongs)); // Tahirizina ho an'ny offline[cite: 5]
+                    localStorage.setItem('songs_data', JSON.stringify(allSongs)); // Tahirizina ho an'ny offline
                     authors = [...new Set(allSongs.map(song => song.author))];
                     renderHomePage(allSongs);
                 }
             });
         })
         .catch(err => {
-            console.error("Offline mode: mampiasa ny data efa voatahiry.");
+            console.log("Offline mode: mampiasa cache.");
             if (!cachedData) {
-                appContainer.innerHTML = '<p style="text-align:center; padding:20px;">Mila internet ianao amin'ny voalohany.</p>';
+                const listContainer = document.getElementById('songs-list');
+                if(listContainer) {
+                    listContainer.innerHTML = '<p style="text-align:center; padding:20px;">Mila internet ianao amin'ny voalohany mampiasa ny app.</p>';
+                }
             }
         });
 
@@ -55,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         searchInput.addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase();
             const filteredSongs = allSongs.filter(song =>
-                song.title.toLowerCase().includes(searchTerm) ||
+                (song.title && song.title.toLowerCase().includes(searchTerm)) ||
                 (song.text && song.text.toLowerCase().includes(searchTerm))
             );
             renderSongList(filteredSongs, songList);
@@ -69,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             songs.forEach((song, index) => {
                 const li = document.createElement('li');
-                li.innerHTML = `<span class="song-title-list">${song.title}</span>`;
+                li.innerHTML = `<span class="song-title-list">${song.title || 'Tsy misy lohateny'}</span>`;
                 li.addEventListener('click', () => renderSongDetails(song, index));
                 container.appendChild(li);
             });
@@ -87,10 +90,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </header>
                 <div class="song-details">
-                    <h2>${song.title}</h2>
-                    <p><strong>Mpamorona:</strong> ${song.author}</p>
-                    <p><strong>Fanalahidy:</strong> ${song.key}</p>
-                    <pre>${song.text}</pre>
+                    <h2>${song.title || 'Tsy misy lohateny'}</h2>
+                    <p><strong>Mpamorona:</strong> ${song.author || 'Tsy fantatra'}</p>
+                    <p><strong>Fanalahidy:</strong> ${song.key || '-'}</p>
+                    <pre>${song.text || ''}</pre>
                 </div>
             </div>
         `;
@@ -121,13 +124,15 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         const authorList = document.getElementById('author-list');
         authors.sort().forEach(author => {
-            const li = document.createElement('li');
-            li.innerHTML = `<span class="author-name">${author}</span>`;
-            li.addEventListener('click', () => {
-                const filtered = allSongs.filter(s => s.author === author);
-                renderHomePage(filtered);
-            });
-            authorList.appendChild(li);
+            if(author) {
+                const li = document.createElement('li');
+                li.innerHTML = `<span class="author-name">${author}</span>`;
+                li.addEventListener('click', () => {
+                    const filtered = allSongs.filter(s => s.author === author);
+                    renderHomePage(filtered);
+                });
+                authorList.appendChild(li);
+            }
         });
         if(toggleViewLink) toggleViewLink.textContent = "Lohatenin-kira";
     }
