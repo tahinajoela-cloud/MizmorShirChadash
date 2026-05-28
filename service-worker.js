@@ -5,8 +5,9 @@ const ASSETS = [
     '/home.html',
     '/script.js',
     '/style.css',
+    '/papaparse.min.js',
     '/manifest.json',
-    '/icon-512.png'
+    '/icon-512.png' 
 ];
 
 self.addEventListener('install', (e) => {
