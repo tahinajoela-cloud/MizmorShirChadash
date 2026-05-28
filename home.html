@@ -8,7 +8,13 @@
 </head>
 <body>
     <div id="app-container">
-        <p style="text-align:center; padding:50px;">Mampiditra ny hira...</p>
+        <div id="loading-container" style="text-align: center; margin-top: 50px; font-family: sans-serif;">
+            <h2 id="loading-status">Mampiditra ny hira...</h2>
+            <div class="progress-bar-bg" style="width: 80%; background: #e0e0e0; height: 10px; border-radius: 5px; margin: 20px auto; overflow: hidden;">
+                <div id="progress-bar-fill" style="width: 0%; background: #710d5d; height: 100%; transition: width 0.2s;"></div>
+            </div>
+            <p id="loading-details" style="color: #666; font-size: 14px;">Efa voasintona: 0 KB</p>
+        </div>
     </div>
 
     <div class="footer">
