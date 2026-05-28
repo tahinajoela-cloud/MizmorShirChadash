@@ -2,19 +2,20 @@
 <html lang="mg">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adat Mimetsulot Yam</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Mizmor Shir Chadash</title>
+    <!-- Ampifandraiso ny manifest -->
+    <link rel="manifest" href="/manifest.json">
 </head>
 <body>
+    <h1>Mizmor Shir</h1>
+    <div id="content">Ity ny tononkira...</div>
 
-    <main id="app-container">
-        </main>
-
-    <div class="footer">
-        <a href="#" id="toggle-view">Mpamoron-kira</a>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-    <script src="script.js"></script>
+    <script>
+        // FAMETRAHANA SERVICE WORKER (Tsy maintsy misy mba hiasa offline)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./service-worker.js')
+                .then(() => console.log('Service Worker miasa!'));
+        }
+    </script>
 </body>
 </html>
