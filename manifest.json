@@ -1,7 +1,7 @@
-"icons": [
-  {
-    "src": "/icon-512.png",
-    "type": "image/png",
-    "sizes": "512x512"
-  }
-]
+{
+  "name": "Mizmor Shir Chadash",
+  "short_name": "Mizmor Shir",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "icons": [{ "src": "/icon-512_100527.png", "sizes": "512x512", "type": "image/png" }]
+}
