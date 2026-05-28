@@ -2,87 +2,33 @@
 <html lang="mg">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mizmor Shir Chadash - Loading</title>
-    <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
-            margin: 0; 
-            background-color: #f4f4f9; 
-        }
-        .modal { 
-            text-align: center; 
-            background: white;
-            padding: 30px; 
-            border-radius: 10px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        button { 
-            padding: 12px 20px; 
-            margin: 10px; 
-            cursor: pointer; 
-            border: none; 
-            border-radius: 5px; 
-            background-color: rgb(113, 13, 93); 
-            color: white; 
-            font-weight: bold;
-        }
-        button:hover { background-color: #333; }
-    </style>
+    <link rel="manifest" href="/manifest.json">
+    <title>Mizmor Shir</title>
 </head>
 <body>
+    <h3>Tongasoa!</h3>
+    <button onclick="loadData(true)">Havaozina ny hira</button>
+    <button onclick="loadData(false)">Ampiasao ny efa misy</button>
 
-    <div id="loader" class="modal">
-        <h3>Tongasoa!</h3>
-        <p>Havaozina ny hira sa hampiasa ny efa misy?</p>
-        <button onclick="loadData(true)">Havaozina (Eny)</button>
-        <button onclick="loadData(false)">Ampiasao ny efa misy</button>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-    
+    <script src="papaparse.min.js"></script>
     <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./service-worker.js');
+        }
         function loadData(forceUpdate) {
             const cached = localStorage.getItem('songs_data');
-            
             if (cached && !forceUpdate) {
-                // Raha tsy te-hanavao dia mandeha mivantana any amin'ny home.html
                 window.location.href = 'home.html';
             } else {
-                // Fetch avy amin'ny Google Sheet
-                const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSx0LfEILechHBVKVEjuWA57E18yXF9xTXfcLPXCY75dGSZvNf2lLaiy6Rrgu9XW6FVkQ57cmE9ewCV/pub?output=csv';
-                
-                fetch(csvUrl)
-                    .then(r => r.text())
-                    .then(text => {
-                        Papa.parse(text, {
-                            header: true,
-                            skipEmptyLines: true,
-                            complete: (results) => {
-                                localStorage.setItem('songs_data', JSON.stringify(results.data));
-                                window.location.href = 'home.html';
-                            }
-                        });
-                    })
-                    .catch(err => {
-                        alert("Tsy mahay mifandray amin'ny Google Sheet. Hampiasa ny efa misy!");
+                fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vSx0LfEILechHBVKVEjuWA57E18yXF9xTXfcLPXCY75dGSZvNf2lLaiy6Rrgu9XW6FVkQ57cmE9ewCV/pub?output=csv')
+                .then(r => r.text()).then(text => {
+                    Papa.parse(text, { header: true, complete: (res) => {
+                        localStorage.setItem('songs_data', JSON.stringify(res.data));
                         window.location.href = 'home.html';
-                    });
+                    }});
+                });
             }
         }
     </script>
-<script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./service-worker.js')
-                .then(() => console.log('Service Worker efa voasoratra tsara!'))
-                .catch((err) => console.log('Tsy nety ny fisoratana: ', err));
-        });
-    }
-</script>
 </body>
 </html>
