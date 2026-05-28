@@ -2,19 +2,31 @@
 <html lang="mg">
 <head>
     <meta charset="UTF-8">
-    <title>Mizmor Shir Chadash</title>
-    <!-- Ampifandraiso ny manifest -->
-    <link rel="manifest" href="/manifest.json">
+    <title>Mizmor Shir - Home</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Mizmor Shir</h1>
-    <div id="content">Ity ny tononkira...</div>
+    <div id="app-container">
+        <h1>Mizmor Shir</h1>
+        <div id="songs-list"></div>
+    </div>
 
     <script>
-        // FAMETRAHANA SERVICE WORKER (Tsy maintsy misy mba hiasa offline)
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./service-worker.js')
-                .then(() => console.log('Service Worker miasa!'));
+        // Vakio ny data avy ao amin'ny fitadidian'ny finday (localStorage)
+        const cachedData = localStorage.getItem('songs_data');
+
+        if (cachedData) {
+            const songs = JSON.parse(cachedData);
+            // Ampisehoy ny hira eto
+            const listContainer = document.getElementById('songs-list');
+            songs.forEach(song => {
+                const li = document.createElement('div');
+                li.innerText = song.Title; // Araho ny anaran'ny tsanganana ao amin'ny Google Sheet
+                listContainer.appendChild(li);
+            });
+        } else {
+            // Raha tsy misy data ao, dia miverina mankany amin'ny index.html
+            window.location.href = 'index.html';
         }
     </script>
 </body>
