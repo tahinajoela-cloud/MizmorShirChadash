@@ -1,6 +1,12 @@
 const CACHE_NAME = 'mizmor-shir-v1';
-const ASSETS = ['/', '/index.html', '/script.js', '/style.css', '/manifest.json'];
-
+const ASSETS = [
+    '/',
+    '/index.html',
+    '/home.html',
+    '/script.js',
+    '/style.css',
+    '/icon-512_100527.png'
+];
 self.addEventListener('install', (e) => {
     e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)));
 });
