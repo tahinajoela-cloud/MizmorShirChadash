@@ -2,32 +2,15 @@
 <html lang="mg">
 <head>
     <meta charset="UTF-8">
-    <title>Mizmor Shir - Home</title>
     <link rel="stylesheet" href="style.css">
+    <title>Mizmor Shir</title>
 </head>
 <body>
     <div id="app-container">
         <h1>Mizmor Shir</h1>
         <div id="songs-list"></div>
     </div>
-
-    <script>
-        // Vakio ny data avy ao amin'ny fitadidian'ny finday (localStorage)
-        const cachedData = localStorage.getItem('songs_data');
-
-        if (cachedData) {
-            const songs = JSON.parse(cachedData);
-            // Ampisehoy ny hira eto
-            const listContainer = document.getElementById('songs-list');
-            songs.forEach(song => {
-                const li = document.createElement('div');
-                li.innerText = song.Title; // Araho ny anaran'ny tsanganana ao amin'ny Google Sheet
-                listContainer.appendChild(li);
-            });
-        } else {
-            // Raha tsy misy data ao, dia miverina mankany amin'ny index.html
-            window.location.href = 'index.html';
-        }
-    </script>
+    <script src="papaparse.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
