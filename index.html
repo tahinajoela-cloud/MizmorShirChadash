@@ -3,31 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <link rel="manifest" href="/manifest.json">
-    <title>Mizmor Shir</title>
+    <title>Mizmor Shir Chadash</title>
 </head>
 <body>
     <h3>Tongasoa!</h3>
-    <button onclick="loadData(true)">Havaozina ny hira</button>
-    <button onclick="loadData(false)">Ampiasao ny efa misy</button>
-
-    <script src="papaparse.min.js"></script>
+    <!-- Aza mampiasa window.location.href eto -->
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('./service-worker.js');
         }
-        function loadData(forceUpdate) {
-            const cached = localStorage.getItem('songs_data');
-            if (cached && !forceUpdate) {
-                window.location.href = 'home.html';
-            } else {
-                fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vSx0LfEILechHBVKVEjuWA57E18yXF9xTXfcLPXCY75dGSZvNf2lLaiy6Rrgu9XW6FVkQ57cmE9ewCV/pub?output=csv')
-                .then(r => r.text()).then(text => {
-                    Papa.parse(text, { header: true, complete: (res) => {
-                        localStorage.setItem('songs_data', JSON.stringify(res.data));
-                        window.location.href = 'home.html';
-                    }});
-                });
-            }
+        // Alefaso mivantana amin'ny home.html raha efa misy data
+        if(localStorage.getItem('songs_data')) {
+            window.location.href = 'home.html';
         }
     </script>
 </body>
