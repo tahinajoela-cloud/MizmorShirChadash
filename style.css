@@ -71,7 +71,7 @@ h2 { text-align: center; }
 .song-navigation {
     display: flex;
     justify-content: space-between;
-    background-color: #da4f8e;
+    background-color: rgb(113, 13, 93);
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 15px;
