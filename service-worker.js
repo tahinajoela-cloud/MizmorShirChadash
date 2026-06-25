@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mizmor-cache-v1';
+const CACHE_NAME = 'mizmor-cache-v2';
 
 // Tsy maintsy feno tsara ny rakitra rehetra ilaina eto
 const ASSETS_TO_CACHE = [
