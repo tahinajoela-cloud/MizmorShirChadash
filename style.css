@@ -19,7 +19,7 @@ header {
     margin-bottom: 20px;
     position: sticky;
     top: 0;
-    background-color: #ff70a6;
+    background-color: #da4f8e;
     z-index: 100;
     padding: 10px 20px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -71,7 +71,7 @@ h2 { text-align: center; }
 .song-navigation {
     display: flex;
     justify-content: space-between;
-    background-color: rgb(113, 13, 93);
+    background-color: #da4f8e;
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 15px;
@@ -111,7 +111,7 @@ h2 { text-align: center; }
 .footer {
     text-align: center;
     padding: 15px;
-    background-color: #ff70a6;
+    background-color: #da4f8e;
     color: #fff;
     position: fixed;
     bottom: 0;
